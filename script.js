@@ -46,7 +46,7 @@ app.post('/verifystudent/', function (req, resp) {
         data: true,
         message: 'Student Verified Successfully'
       }
-       //console.log(responseData);
+      //console.log(responseData);
 
       //resp.send(otp);
       //if((responseData.data.length)==1){
@@ -77,9 +77,9 @@ app.post('/verifystudent/', function (req, resp) {
         message: 'Student Not Veified'
       }
       resp.send(JSON.stringify(responseData))
-      
+
     }
-    
+
 
   });
 
@@ -160,18 +160,18 @@ app.post('/view_transaction_history/', function (req, resp) {
 
   masterModel.get_transaction(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
+    else {
       var responseData = {
-      //requestUrl: req.originalUrl,
-      status: 'success',
-      data: result,
+        //requestUrl: req.originalUrl,
+        status: 'success',
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
     }
-    //   console.log(responseData);
-    resp.send(responseData);
-  }
 
   });
 
@@ -182,28 +182,10 @@ app.post('/view_total_commitment/', function (req, resp) {
 
   masterModel.get_commitment(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
-    }
-    //   console.log(responseData);
-    resp.send(responseData);
-  }
-
-  });
-
-  app.post('/view_total_paid_amount/', function (req, resp) {
-
-    masterModel.get_paidAmount(connection, req.body.studentid, function (err, result) {
-      //console.log(result);
-      if (err){
-        console.log(err);
-      }
-      else{
+    else {
       var responseData = {
         //requestUrl: req.originalUrl,
         data: result,
@@ -211,15 +193,33 @@ app.post('/view_total_commitment/', function (req, resp) {
       //   console.log(responseData);
       resp.send(responseData);
     }
-  
+
+  });
+
+  app.post('/view_total_paid_amount/', function (req, resp) {
+
+    masterModel.get_paidAmount(connection, req.body.studentid, function (err, result) {
+      //console.log(result);
+      if (err) {
+        console.log(err);
+      }
+      else {
+        var responseData = {
+          //requestUrl: req.originalUrl,
+          data: result,
+        }
+        //   console.log(responseData);
+        resp.send(responseData);
+      }
+
     });
 
-    
-
-  
 
 
-});
+
+
+
+  });
 
 })
 
@@ -227,17 +227,17 @@ app.post('/current_dues/', function (req, resp) {
 
   masterModel.get_current_dues(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
     }
-    //   console.log(responseData);
-    resp.send(responseData);
-  }
 
   });
 });
@@ -246,17 +246,17 @@ app.post('/upcoming_dues/', function (req, resp) {
 
   masterModel.get_upcoming_dues(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
     }
-    //   console.log(responseData);
-    resp.send(responseData);
-  }
 
   });
 });
@@ -265,20 +265,43 @@ app.post('/previous_dues/', function (req, resp) {
 
   masterModel.get_previous_dues(connection, req.body.studentid, function (err, result) {
     //console.log(result);
+    if (err) {
+      console.log(err);
+    }
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
+    }
+
+  });
+});
+
+
+app.post('/get_dashboard_data/', function (req, resp) {
+
+  masterModel.get_dashboard_data(connection, req.body.studentid, function (err, result) {
+    //console.log(result);
     if (err){
       console.log(err);
     }
     else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
-    }
+      var responseData = {
+        status: 'success',
+        data: {Current_due: 5000, Previous_due: 4000,upcoming_due: 2000,total_payment:5000,total_commitment: 10000},
+        message: 'Dashboard data returned'
+      }
     //   console.log(responseData);
-    resp.send(responseData);
+    resp.send(JSON.stringify(responseData));
   }
 
   });
 });
+
+
 
 
 

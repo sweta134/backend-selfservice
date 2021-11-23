@@ -90,6 +90,16 @@ module.exports = {
     })     
   },
 
+  get_dashboard_data: function (connection, id, controllerCallback) {
+    var sql =
+      "SELECT Sum(paid_amount) AS Previous_Due from transaction_master WHERE student_id='" +
+      id +
+      "' and is_synced= 'Y' AND statu='Pending' AND chec='Unpaid'AND tran_date<'2021-07-01';";
+    connection.query(sql, (err, result) => {
+      controllerCallback(err, result);
+    });
+  },
+
   
 
   
