@@ -38,6 +38,7 @@ connection.connect(function (error) {
 
 app.post('/verifystudent/', function (req, resp) {
 
+  // console.log(req.body);
   masterModel.get_student(connection, req.body.studentid, function (err, result) {
     console.log(result);
     if ((result.length) == 1) {
@@ -191,7 +192,7 @@ app.post('/view_total_commitment/', function (req, resp) {
         data: result,
       }
       //   console.log(responseData);
-      resp.send(responseData);
+      resp.send(JSON.stringify(responseData));
     }
 
   });
@@ -213,31 +214,102 @@ app.post('/view_total_commitment/', function (req, resp) {
       }
 
     });
-
-
-
-
-
-
   });
 
 })
 
-app.post('/current_dues/', function (req, resp) {
+app.post('/get_current_due_detail_sum/', function (req, resp) {
 
-  masterModel.get_current_dues(connection, req.body.studentid, function (err, result) {
+  masterModel.get_current_due_detail_sum(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err) {
+    if (err){
       console.log(err);
     }
-    else {
-      var responseData = {
-        //requestUrl: req.originalUrl,
-        data: result,
-      }
-      //   console.log(responseData);
-      resp.send(responseData);
+    else{
+    var responseData = {
+      //requestUrl: req.originalUrl,
+      data: result,
     }
+    //   console.log(responseData);
+    resp.send(JSON.stringify(responseData));
+  }
+
+  });
+});
+
+app.post('/get_current_due_detail/', function (req, resp) {
+
+  console.log(req);
+  masterModel.get_current_due_detail(connection, req.body.studentid, function (err, result) {
+    console.log(result);
+    if (err){
+      console.log(err);
+    }
+    else{
+    var responseData = {
+      //requestUrl: req.originalUrl,
+      data: result,
+    }
+    //   console.log(responseData);
+    resp.send(responseData);
+  }
+
+  });
+});
+
+app.post('/get_previous_due_detail_sum/', function (req, resp) {
+
+  masterModel.get_previous_due_detail_sum(connection, req.body.studentid, function (err, result) {
+    //console.log(result);
+    if (err){
+      console.log(err);
+    }
+    else{
+    var responseData = {
+      //requestUrl: req.originalUrl,
+      data: result,
+    }
+    //   console.log(responseData);
+    resp.send(responseData);
+  }
+
+  });
+});
+
+app.post('/get_previous_due_detail/', function (req, resp) {
+
+  masterModel.get_previous_due_detail(connection, req.body.studentid, function (err, result) {
+    //console.log(result);
+    if (err){
+      console.log(err);
+    }
+    else{
+    var responseData = {
+      //requestUrl: req.originalUrl,
+      data: result,
+    }
+    //   console.log(responseData);
+    resp.send(responseData);
+  }
+
+  });
+});
+
+app.post('/get_previous_due_detail_secondTable/', function (req, resp) {
+
+  masterModel.get_previous_due_detail_secondTable(connection, req.body.studentid, function (err, result) {
+    //console.log(result);
+    if (err){
+      console.log(err);
+    }
+    else{
+    var responseData = {
+      //requestUrl: req.originalUrl,
+      data: result,
+    }
+    //   console.log(responseData);
+    resp.send(responseData);
+  }
 
   });
 });
@@ -260,26 +332,6 @@ app.post('/upcoming_dues/', function (req, resp) {
 
   });
 });
-
-app.post('/previous_dues/', function (req, resp) {
-
-  masterModel.get_previous_dues(connection, req.body.studentid, function (err, result) {
-    //console.log(result);
-    if (err) {
-      console.log(err);
-    }
-    else {
-      var responseData = {
-        //requestUrl: req.originalUrl,
-        data: result,
-      }
-      //   console.log(responseData);
-      resp.send(responseData);
-    }
-
-  });
-});
-
 
 app.post('/get_dashboard_data/', function (req, resp) {
 
