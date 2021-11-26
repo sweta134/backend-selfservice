@@ -222,17 +222,17 @@ app.post('/get_current_due_detail_sum/', function (req, resp) {
 
   masterModel.get_current_due_detail_sum(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(JSON.stringify(responseData));
     }
-    //   console.log(responseData);
-    resp.send(JSON.stringify(responseData));
-  }
 
   });
 });
@@ -242,17 +242,17 @@ app.post('/get_current_due_detail/', function (req, resp) {
   console.log(req);
   masterModel.get_current_due_detail(connection, req.body.studentid, function (err, result) {
     console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
     }
-    //   console.log(responseData);
-    resp.send(responseData);
-  }
 
   });
 });
@@ -261,17 +261,17 @@ app.post('/get_previous_due_detail_sum/', function (req, resp) {
 
   masterModel.get_previous_due_detail_sum(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
     }
-    //   console.log(responseData);
-    resp.send(responseData);
-  }
 
   });
 });
@@ -280,17 +280,17 @@ app.post('/get_previous_due_detail/', function (req, resp) {
 
   masterModel.get_previous_due_detail(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
     }
-    //   console.log(responseData);
-    resp.send(responseData);
-  }
 
   });
 });
@@ -299,21 +299,63 @@ app.post('/get_previous_due_detail_secondTable/', function (req, resp) {
 
   masterModel.get_previous_due_detail_secondTable(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
-    var responseData = {
-      //requestUrl: req.originalUrl,
-      data: result,
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
     }
-    //   console.log(responseData);
-    resp.send(responseData);
-  }
 
   });
 });
 
+// app.post('/get_invoice_no/', function (req, resp) {
+
+//   masterModel.get_invoice_no(connection, req.body.studentid, function (err, result) {
+//     //console.log(result);
+//     if (err) {
+//       console.log(err);
+//     }
+//     else {
+//       var responseData = {
+//         //requestUrl: req.originalUrl,
+//         data: result,
+//       }
+//       //   console.log(responseData);
+//       resp.send(responseData);
+//     }
+
+//   });
+// });
+
+app.post('/get_invoice_no/', function (req, resp) {
+
+  masterModel.get_invoice_no(connection, req.body.studentid, function (err, result) {
+    //console.log(result);
+    var arr,new_arr;
+    if (err) {
+      console.log(err);
+    }
+    else {
+      var responseData = {
+        //requestUrl: req.originalUrl,
+        data: result,
+      }
+      // const rep=JSON.parse(responseData);
+      // resp.send(responseData);
+      // console.log(responseData.data[0]["FeeComponents"]);
+      arr=responseData.data[0]["FeeComponents"];
+      resp.JSON(responseData.data[1]["FeeComponents"]);
+      // console.log(arr.slice(1, 15));
+    }
+
+  });
+});
 app.post('/upcoming_dues/', function (req, resp) {
 
   masterModel.get_upcoming_dues(connection, req.body.studentid, function (err, result) {
@@ -337,18 +379,89 @@ app.post('/get_dashboard_data/', function (req, resp) {
 
   masterModel.get_dashboard_data(connection, req.body.studentid, function (err, result) {
     //console.log(result);
-    if (err){
+    if (err) {
       console.log(err);
     }
-    else{
+    else {
       var responseData = {
         status: 'success',
-        data: {Current_due: 5000, Previous_due: 4000,upcoming_due: 2000,total_payment:5000,total_commitment: 10000},
+        data: {
+          total_due_amount: '20000',
+          academic_session: '2019-20',
+          invoices: [
+            {
+              invoice_id: 'INV20191015',
+              total_amount: '8000',
+              payable_date: "20191215",
+              status: "0",
+              component_data:
+                [
+                  {
+                    component_name: "tution fees",
+                    amount: "5000",
+                    slno: "1"
+                  },
+                  {
+                    component_name: "digitalization fees",
+                    amount: "1500",
+                    slno: "2"
+                  },
+                  {
+                    component_name: "transport fees",
+                    amount: "1500",
+                    slno: "3"
+                  }
+                ]
+            },
+            {
+              invoice_id: 'INV20191215',
+              total_amount: '7000',
+              payable_date: "20201215",
+              status: "0",
+              component_data:
+                [
+                  {
+                    component_name: "tution fees",
+                    amount: "4000",
+                    slno: "1"
+                  },
+                  {
+                    component_name: "digitalization fees",
+                    amount: "1500",
+                    slno: "2"
+                  },
+                  {
+                    component_name: "transport fees",
+                    amount: "1500",
+                    slno: "3"
+                  }
+                ]
+            },
+          ]
+        },
         message: 'Dashboard data returned'
       }
-    //   console.log(responseData);
-    resp.send(JSON.stringify(responseData));
-  }
+      //   console.log(responseData);
+      resp.send(JSON.stringify(responseData));
+    }
+
+  });
+});
+
+app.post('/get_Total_invoice_amount/', function (req, resp) {
+
+  masterModel.get_Total_invoice_amount(connection, req.body.studentid, function (err, result) {
+    //console.log(result);
+    if (err) {
+      console.log(err);
+    }
+    else {
+      var responseData = {
+        data: result,
+      }
+      //   console.log(responseData);
+      resp.send(responseData);
+    }
 
   });
 });
