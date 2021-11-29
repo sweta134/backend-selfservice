@@ -50,7 +50,7 @@ module.exports = {
   },
 
   get_transaction: function(connection,id, controllerCallback) {    
-    var sql = " SELECT tran_date AS Transaction_date,recepept_id AS Receipt_ID,paid_amount AS Paid_amount,tran_mode AS mode from transaction_master WHERE student_id= '"+id+"' and is_synced= 'Y' ";
+    var sql = " SELECT tran_date AS Transaction_date,recepept_id AS Receipt_ID,paid_amount AS Paid_amount,tran_mode AS mode from transaction_master WHERE student_id= 'AIS15' and is_synced= 'Y'; ";
     connection.query(sql, (err, result) => {     
     controllerCallback(err, result);      
     })     
@@ -163,6 +163,85 @@ module.exports = {
       controllerCallback(err, result);
     });
   },
+
+  get_previous_details: function (connection, id, controllerCallback) {
+    var sql =
+ " SELECT B.invoice_no,B.payable_date,B.payable_date, D.component_name,C.amount,D.slno FROM student_master A"
+ +" INNER JOIN Invoice B on A.studentID = B.studentid"
+ +" INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id"
+ +" INNER JOIN fees_components_master D on C.fees_components_master_id = D.id"
+ +" INNER JOIN academic_session E on B.academic_session_id = E.id"
++" WHERE B.studentid='AIS15' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1 ) ORDER BY B.invoice_no"
+    connection.query(sql, (err, result) => {
+
+      sql = "SELECT DISTINCT E.session_name FROM student_master A INNER JOIN invoice  B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id  INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='AIS15' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1);";
+      connection.query(sql, (err, result_session) => {
+  
+        controllerCallback(err, result,result_session);
+      });
+
+
+    });
+  },
+
+  get_upcoming_details: function (connection, id, controllerCallback) {
+    var sql =
+ " SELECT B.invoice_no,B.payable_date,B.payable_date, D.component_name,C.amount,D.slno FROM student_master A"
+ +" INNER JOIN Invoice B on A.studentID = B.studentid"
+ +" INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id"
+ +" INNER JOIN fees_components_master D on C.fees_components_master_id = D.id"
+ +" INNER JOIN academic_session E on B.academic_session_id = E.id"
++" WHERE B.studentid='AIS15' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1 OFFSET 1) ORDER BY B.invoice_no;"
+    connection.query(sql, (err, result) => {
+
+      sql = "SELECT DISTINCT E.session_name FROM student_master A INNER JOIN invoice  B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id  INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='AIS15' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1);";
+      connection.query(sql, (err, result_session) => {
+  
+        controllerCallback(err, result,result_session);
+      });
+
+
+    });
+  },
+
+  get_current_details: function (connection, id, controllerCallback) {
+    var sql =
+  " (SELECT E.session_name,B.invoice_no,B.payable_date, D.component_name,C.amount,D.slno FROM student_master A INNER JOIN Invoice B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='AIS15' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1 ) ORDER BY B.invoice_no)UNION (SELECT E.session_name,B.invoice_no,B.payable_date, D.component_name,C.amount,D.slno FROM student_master A INNER JOIN Invoice B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='AIS15' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='1' LIMIT 1 ) ORDER BY B.invoice_no);"
+    connection.query(sql, (err, result) => {
+  
+      sql = "SELECT DISTINCT E.session_name FROM student_master A INNER JOIN invoice  B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id  INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='AIS15' AND B.`status`='1';";
+      connection.query(sql, (err, result_session) => {
+  
+        controllerCallback(err, result,result_session);
+      });
+  
+  
+    });
+  },
+
+  get_dashboard_details: function (connection, id, controllerCallback) {
+    var sql =
+      "SELECT SUM(C.amount) AS CURRENT_DUE FROM student_master A INNER JOIN Invoice B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='AIS15' AND B.`status`='1'"
+    connection.query(sql, (err, result) => {
+      sql =
+        "SELECT SUM(C.amount) AS PREVIOUS_DUE FROM student_master A INNER JOIN Invoice B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='AIS15' AND B.`status`='1'AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1) LIMIT 5;"
+      connection.query(sql, (err, result1) => {
+        sql = "SELECT DISTINCT(payable_amount) AS TOTAL_COMMITMENT from transaction_master WHERE student_id= 'AIS15' and is_synced= 'Y'"
+        
+      connection.query(sql, (err, result2) => {
+          sql = "SELECT SUM(paid_amount) AS TOTAL_PAID_AMOUNT FROM transaction_master WHERE student_id='AIS15' AND is_synced='Y' AND chec='Paid'"
+          connection.query(sql, (err, result3) => {
+          sql = "SELECT SUM(C.amount) AS UPCOMING_DUE FROM student_master A INNER JOIN Invoice B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='" +
+          id +
+          "' AND B.`status`='1'AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1 OFFSET 1 ) LIMIT 5;"
+          connection.query(sql, (err, result4) => {
+        controllerCallback(err, result, result1, result2, result3, result4);
+      });
+    });
+  });
+});
+});
+},
 
   
 
