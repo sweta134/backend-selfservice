@@ -1,4 +1,3 @@
-
 var express = require('express');
 var mysql = require('mysql');
 var app = express();
@@ -23,7 +22,6 @@ var connection = mysql.createConnection({
 
 
 
-
 connection.connect(function (error) {
   console.log(error);
   if (error) {
@@ -34,7 +32,7 @@ connection.connect(function (error) {
 });
 
 
-// verifying student
+// /Verifying Student/ is to verify if 
 
 app.post('/verifystudent/', function (req, resp) {
 
