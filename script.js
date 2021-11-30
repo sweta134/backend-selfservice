@@ -16,7 +16,11 @@ app.use(cors());
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
+<<<<<<< HEAD
   password: '',
+=======
+  password: 'swag@1512',
+>>>>>>> f41feb8e3f1a1957037872ce331ea9d1f4082917
   database: 'selfservice',
   insecureAuth: true,
 });
@@ -33,8 +37,16 @@ connection.connect(function (error) {
   }
 });
 
+/* Application Programming Interface(API) for the Verifaction of User and Displaying of the data in the Models  */
+// /Verifying Student/ is to verify if the student exist in the Database and to send OTP(One Time Password).(line:47-95)
+// /Verify OTP is to verify the OTP if the OTP(One Time Password) inserted by the user is correct or incorrect. (line:99-131)
+// /get_dashboard_details/ returns 5 modules i.e., Current dues, Previous Dues, Upcoming Dues, Total Payments, Total Commitment at once.(line:623-643)
+/*Application Programming Interface for all the Modules which are being displayed inside each modules i.e., the components*/
+// /get_current_details/ returns the component of the all the dues in the current time which include previous dues.(line:538-621)
+// /get_previous_details/ returns the component of the dues that in the prvious session which donot incluce current session.(line:370-452)
+// /get_upcoming_details/ returns the component of the future dues that the user need to pay apart from previous and current due.(line:454-536)
+// /view_transaction_history/ returns the all details of transaction which has been occur 'Failed' or 'Success' all are been mentioned.(line:133-153)*/
 
-// verifying student
 
 app.post('/verifystudent/', function (req, resp) {
 
@@ -119,42 +131,7 @@ app.post('/verify-otp', function (req, res) {
       res.send(JSON.stringify(responseData))
     }
 
-
-
-
   });
-
-  // masterModel.update_session(connection, req.body.otp, function (err, result) {
-
-  //   var responseData = {
-  //     status: 'success',
-  //     data: true,
-  //     message: 'SESSION EXPIRED'
-  //   }
-
-  //   if (result.length == 1) {
-  //     res.send(JSON.stringify(responseData))
-  //     masterModel.update_otp(connection, req.body.otp, function (err, result) {
-  //       if (err) {
-  //         console.log(error);
-  //       } else {
-  //         console.log(responseData);
-
-  //       }
-  //     })
-  //   } else {
-  //     var responseData = {
-  //       status: 'failure',
-  //       data: 'false',
-  //       message: 'OTP not matched'
-  //     }
-  //     res.send(JSON.stringify(responseData))
-  //   }
-
-
-
-
-  // });
 
 })
 
@@ -371,78 +348,6 @@ app.post('/upcoming_dues/', function (req, resp) {
       }
       //   console.log(responseData);
       resp.send(responseData);
-    }
-
-  });
-});
-
-app.post('/get_dashboard_data/', function (req, resp) {
-
-  masterModel.get_dashboard_data(connection, req.body.studentid, function (err, result) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      var responseData = {
-        status: 'success',
-        data: {
-          total_due_amount: '20000',
-          academic_session: '2019-20',
-          invoices: [
-            {
-              invoice_id: 'INV20191015',
-              total_amount: '8000',
-              payable_date: "20191215",
-              status: "0",
-              component_data:
-                [
-                  {
-                    component_name: "tution fees",
-                    amount: "5000",
-                    slno: "1"
-                  },
-                  {
-                    component_name: "digitalization fees",
-                    amount: "1500",
-                    slno: "2"
-                  },
-                  {
-                    component_name: "transport fees",
-                    amount: "1500",
-                    slno: "3"
-                  }
-                ]
-            },
-            {
-              invoice_id: 'INV20191215',
-              total_amount: '7000',
-              payable_date: "20201215",
-              status: "0",
-              component_data:
-                [
-                  {
-                    component_name: "tution fees",
-                    amount: "4000",
-                    slno: "1"
-                  },
-                  {
-                    component_name: "digitalization fees",
-                    amount: "1500",
-                    slno: "2"
-                  },
-                  {
-                    component_name: "transport fees",
-                    amount: "1500",
-                    slno: "3"
-                  }
-                ]
-            },
-          ]
-        },
-        message: 'Dashboard data returned'
-      }
-      //   console.log(responseData);
-      resp.send(JSON.stringify(responseData));
     }
 
   });
@@ -741,5 +646,6 @@ app.post('/get_dashboard_details/', function (req, resp) {
 
   });
 });
+
 
 app.listen(4000);
