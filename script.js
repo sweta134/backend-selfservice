@@ -16,8 +16,8 @@ app.use(cors());
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Soumik@2000',
-  database: 'selfservice',
+  password: 'S1w2e3t4a@',
+  database: 'ais',
   insecureAuth: true,
 });
 
@@ -378,7 +378,6 @@ app.post('/upcoming_dues/', function (req, resp) {
 app.post('/get_dashboard_data/', function (req, resp) {
 
   masterModel.get_dashboard_data(connection, req.body.studentid, function (err, result) {
-    //console.log(result);
     if (err) {
       console.log(err);
     }
@@ -735,7 +734,7 @@ app.post('/get_dashboard_details/', function (req, resp) {
         Total_payment_Module: result3,
         Upcoming_Due_Module: result4,
       }
-    //   console.log(responseData);
+    console.log(responseData);
     resp.send(responseData);
   }
 
