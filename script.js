@@ -16,7 +16,7 @@ app.use(cors());
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Soumik@2000',
+  password: '',
   database: 'selfservice',
   insecureAuth: true,
 });
@@ -40,7 +40,7 @@ app.post('/verifystudent/', function (req, resp) {
 
   // console.log(req.body);
   masterModel.get_student(connection, req.body.studentid, function (err, result) {
-    console.log(result);
+    console.log(req.body);
     if ((result.length) == 1) {
       var responseData = {
         status: 'success',
@@ -94,6 +94,7 @@ app.post('/verify-otp', function (req, res) {
 
   masterModel.get_otp(connection, req.body.studentid, req.body.otp, function (err, result) {
 
+    // console.log(req.body);
     var responseData = {
       status: 'success',
       data: true,
@@ -638,7 +639,7 @@ app.post('/get_upcoming_details/', function (req, resp) {
 app.post('/get_current_details/', function (req, resp) {
 
   masterModel.get_current_details(connection, req.body.studentid, function (err, result,result_session) {
-    //console.log(result);
+    // console.log(req.body);
     var components=[];
     var payable_date="";
     var invoice = new Array();
@@ -723,7 +724,7 @@ app.post('/get_current_details/', function (req, resp) {
 app.post('/get_dashboard_details/', function (req, resp) {
 
   masterModel.get_dashboard_details(connection, req.body.studentid, function (err, result, result1, result2, result3, result4) {
-    //console.log(result);
+    console.log(req.body);
     if (err){
       console.log(err);
     }
