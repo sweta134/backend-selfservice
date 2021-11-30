@@ -171,7 +171,7 @@ module.exports = {
  +" INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id"
  +" INNER JOIN fees_components_master D on C.fees_components_master_id = D.id"
  +" INNER JOIN academic_session E on B.academic_session_id = E.id"
-+" WHERE B.studentid='AIS15' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1 ) ORDER BY B.invoice_no"
++" WHERE B.studentid='"+id+"' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1 ) ORDER BY B.invoice_no"
     connection.query(sql, (err, result) => {
 
       sql = "SELECT DISTINCT E.session_name FROM student_master A INNER JOIN invoice  B on A.studentID = B.studentid INNER JOIN Invoice_Componets C on B.invoice_no = C.invoice_id  INNER JOIN fees_components_master D on C.fees_components_master_id = D.id INNER JOIN academic_session E on B.academic_session_id = E.id WHERE B.studentid='AIS15' AND B.`status`='1' AND B.academic_session_id = (SELECT id FROM academic_session WHERE is_current_session='0' LIMIT 1);";

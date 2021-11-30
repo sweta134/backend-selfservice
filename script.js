@@ -16,7 +16,7 @@ app.use(cors());
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Soumik@2000',
+  password: 'swag@1512',
   database: 'selfservice',
   insecureAuth: true,
 });
